@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECOGUARD — Virtual Forest</title>
+    <meta name="description" content="Grow your virtual forest by reducing your carbon footprint. ECOGUARD gamification platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Floating Leaves Particle Canvas -->
+    <canvas id="leafCanvas"></canvas>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" fill="url(#logoGrad)" opacity="0.2"/>
+                        <path d="M20 6C14 12 10 18 10 24c0 5.5 4.5 10 10 10s10-4.5 10-10C30 18 26 12 20 6z" fill="url(#logoGrad)"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="10" y1="6" x2="30" y2="34">
+                                <stop stop-color="#00CED1"/>
+                                <stop offset="1" stop-color="#008B8B"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div>
+                    <h1>ECOGUARD</h1>
+                    <span class="subtitle">Virtual Forest</span>
+                </div>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="forest" id="nav-forest">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 17h20L12 2z"/><line x1="12" y1="17" x2="12" y2="22"/></svg>
+                    My Forest
+                </button>
+                <button class="nav-tab" data-tab="dashboard" id="nav-dashboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Dashboard
+                </button>
+                <button class="nav-tab" data-tab="leaderboard" id="nav-leaderboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 010-5H6"/><path d="M18 9h1.5a2.5 2.5 0 000-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 19.24 7 20v2h10v-2c0-.76-.85-1.25-2.03-1.79A1.07 1.07 0 0114 17v-2.34"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg>
+                    Leaderboard
+                </button>
+            </nav>
+            <div class="user-selector">
+                <label for="userSelect">Playing as:</label>
+                <select id="userSelect"></select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- FOREST TAB -->
+        <section id="tab-forest" class="tab-content active">
+            <div class="forest-header">
+                <div class="forest-stats-bar">
+                    <div class="stat-pill">
+                        <span class="stat-icon">🌳</span>
+                        <span id="forestTotalTrees">0</span> trees
+                    </div>
+                    <div class="stat-pill healthy">
+                        <span class="stat-icon">💚</span>
+                        <span id="forestHealthy">0</span> healthy
+                    </div>
+                    <div class="stat-pill unhealthy">
+                        <span class="stat-icon">🥀</span>
+                        <span id="forestUnhealthy">0</span> unhealthy
+                    </div>
+                    <div class="stat-pill streak">
+                        <span class="stat-icon">🔥</span>
+                        <span id="forestStreak">0</span> month streak
+                    </div>
+                </div>
+            </div>
+            <div class="forest-ground">
+                <div class="forest-landscape" id="forestLandscape">
+                    <!-- Trees rendered here by JS -->
+                </div>
+                <div class="ground-layer"></div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD TAB -->
+        <section id="tab-dashboard" class="tab-content">
+            <div class="dashboard-grid">
+                <!-- Stat Cards Row -->
+                <div class="stats-row">
+                    <div class="glass-card stat-card">
+                        <div class="stat-card-icon">📊</div>
+                        <div class="stat-card-value" id="dashAvgCO2">—</div>
+                        <div class="stat-card-label">Avg CO₂/month (kg)</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-card-icon">⬇️</div>
+                        <div class="stat-card-value" id="dashBestMonth">—</div>
+                        <div class="stat-card-label">Best Month</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-card-icon">🔥</div>
+                        <div class="stat-card-value" id="dashStreak">0</div>
+                        <div class="stat-card-label">Month Streak</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-card-icon">🌳</div>
+                        <div class="stat-card-value" id="dashTotalTrees">0</div>
+                        <div class="stat-card-label">Total Trees</div>
+                    </div>
+                </div>
+
+                <!-- Chart Card -->
+                <div class="glass-card chart-card">
+                    <h3>Monthly Carbon Footprint</h3>
+                    <div class="chart-container" id="chartContainer">
+                        <!-- Bars rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Info & Sync Card -->
+                <div class="glass-card info-card">
+                    <div class="info-content">
+                        <div class="info-icon">📡</div>
+                        <div class="info-text">
+                            <h3>EcoGuard Central Sync</h3>
+                            <p>Your Virtual Forest is automatically synchronized with your official carbon footprint data. New trees are planted every time you log a footprint in the main application.</p>
+                        </div>
+                        <div class="sync-status">
+                            <span class="pulse"></span>
+                            Live Connection
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEADERBOARD TAB -->
+        <section id="tab-leaderboard" class="tab-content">
+            <div class="leaderboard-container">
+                <!-- Podium -->
+                <div class="podium" id="podium">
+                    <!-- Top 3 rendered by JS -->
+                </div>
+                <!-- Full Rankings Table -->
+                <div class="glass-card rankings-card">
+                    <h3>🏆 Full Rankings — Tree Requirement Score</h3>
+                    <p class="rankings-subtitle">Lower score = greener lifestyle. Score = avg CO₂ per month (kg)</p>
+                    <div class="rankings-table" id="rankingsTable">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Tree Earned Modal -->
+    <div class="modal-overlay hidden" id="treeModal">
+        <div class="modal glass-card">
+            <div class="modal-tree" id="modalTreeSVG"></div>
+            <h2 id="modalTitle">New Tree Earned!</h2>
+            <p id="modalMessage"></p>
+            <button class="btn-primary" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
