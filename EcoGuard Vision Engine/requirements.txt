@@ -1,0 +1,13 @@
+ultralytics==8.4.18
+torch>=2.0
+opencv-python
+numpy
+pandas
+scikit-learn
+xgboost
+lightgbm
+catboost
+joblib
+fastapi
+uvicorn
+onnxruntime-gpu
