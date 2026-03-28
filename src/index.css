@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #111111;
+  --color-brand-surface: #1A1A1A;
+  --color-brand-text-primary: #f9fafb;
+  --color-brand-text-secondary: #9ca3af;
+  --color-brand-accent: #008B8B;
+
+  --font-sans: "Inter", "Poppins", sans-serif;
+}
+
+@layer base {
+
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+/* Timeline Custom Styles */
+
+/* Animation for the pulsing effect */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Animation for the ping effect */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
