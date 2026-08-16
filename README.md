@@ -44,6 +44,8 @@
 ## 🏗️ System Architecture
 
 <div align="center">
+  <img width="600" alt="image" src="https://github.com/user-attachments/assets/65cdc06b-06aa-4171-ab63-349e20e2f1ba" />
+
   <img width="454" height="711" alt="image" src="https://github.com/user-attachments/assets/a2a134db-d332-4918-bce3-2fafe0c5ae9c" />
 </div>
 
